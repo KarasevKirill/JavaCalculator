@@ -37,7 +37,7 @@
             </rowConstraints>
             <children>
                 <Button mnemonicParsing="false" onAction="#btnClearClick" styleClass="normal-button" text="AC" />
-                <Button mnemonicParsing="false" onAction="#btnOperatorClick" styleClass="normal-button" text="+/-" GridPane.columnIndex="1" />
+                <Button mnemonicParsing="false" onAction="#btnPlusMinusClick" styleClass="normal-button" text="+/-" GridPane.columnIndex="1" />
                 <Button mnemonicParsing="false" onAction="#btnOperatorClick" styleClass="normal-button" text="\%" GridPane.columnIndex="2" />
                 <Button mnemonicParsing="false" onAction="#btnOperatorClick" styleClass="normal-button" text="/" GridPane.columnIndex="3" />
                 <Button mnemonicParsing="false" onAction="#btnNumberClick" styleClass="normal-button" text="7" GridPane.rowIndex="1" />
@@ -54,7 +54,7 @@
                 <Button mnemonicParsing="false" onAction="#btnOperatorClick" styleClass="normal-button" text="+" GridPane.columnIndex="3" GridPane.rowIndex="3" />
                 <Button mnemonicParsing="false" onAction="#btnNumberClick" styleClass="normal-button" text="0" GridPane.rowIndex="4" />
                 <Button mnemonicParsing="false" onAction="#btnDotClick" styleClass="normal-button" text="." GridPane.columnIndex="2" GridPane.rowIndex="4" />
-                <Button mnemonicParsing="false" onAction="#btnOperatorClick" styleClass="normal-button" text="=" GridPane.columnIndex="3" GridPane.rowIndex="4" />
+                <Button mnemonicParsing="false" onAction="#btnEqualClick" styleClass="normal-button" text="=" GridPane.columnIndex="3" GridPane.rowIndex="4" />
                 <Button mnemonicParsing="false" onAction="#btnNumberClick" styleClass="normal-button" text="00" GridPane.columnIndex="1" GridPane.rowIndex="4" />
             </children>
         </GridPane>
