@@ -18,13 +18,20 @@ public class Model {
         String[] arguments = expression.split(" ");
 
         double firstNumber  = Double.parseDouble(arguments[0]);
-        double secondNumber = Double.parseDouble(arguments[2]);
         char operator       = arguments[1].charAt(0);
+        double secondNumber = Double.parseDouble(arguments[2]);
 
         if (secondNumber == 0.0 && operator == '/')
             throw new ArithmeticException("Деление на ноль!");
 
-        this.result = 25.0123;
+        switch (operator) {
+            case '*': this.result = firstNumber * secondNumber; return;
+            case '/': this.result = firstNumber / secondNumber; return;
+            case '-': this.result = firstNumber - secondNumber; return;
+            case '%': this.result = firstNumber % secondNumber; return;
+            case '+': this.result = firstNumber + secondNumber; return;
+            default: throw new ArithmeticException("Неизвестная операция!");
+        }
     }
 
     public String getResult() {

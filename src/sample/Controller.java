@@ -11,6 +11,9 @@ public class Controller {
     private boolean newIteration;
     private boolean operatorExist;
     private boolean secondArgument;
+    private boolean firstNumberDot;
+    private boolean secondNumberDot;
+
     private Model model;
 
     @FXML
@@ -18,19 +21,16 @@ public class Controller {
 
     public Controller() {
 
-        this.newIteration   = true;
-        this.operatorExist  = false;
-        this.secondArgument = false;
-        this.model          = new Model();
+        this.initField();
+
+        this.model = new Model();
     }
 
     @FXML
     private void btnNumberClick(ActionEvent event) {
 
-        if (!this.newIteration) {
-            this.allClear("0");
+        if (this.resetValue())
             return;
-        }
 
         String buttonValue = this.getValue(event);
         String currentValue = this.output.getText();
@@ -48,10 +48,8 @@ public class Controller {
     @FXML
     private void btnOperatorClick(ActionEvent event) {
 
-        if (!this.newIteration) {
-            this.allClear("0");
+        if (this.resetValue())
             return;
-        }
 
         if (this.operatorExist)
             return;
@@ -68,21 +66,20 @@ public class Controller {
     @FXML
     private void btnDotClick(ActionEvent event) {
 
-        // нет возможности сделать оба числа десятичными
-        // надо поправить
-
-        if (!this.newIteration) {
-            this.allClear("0");
+        if (this.resetValue())
             return;
-        }
 
         String buttonValue = this.getValue(event);
         String currentValue = this.output.getText();
+        String displayValue = currentValue;
 
-        if (currentValue.indexOf(buttonValue) != -1)
-            return;
-
-        String displayValue = currentValue + buttonValue;
+        if (!this.firstNumberDot && currentValue.indexOf(buttonValue) == -1) {
+            displayValue = currentValue + buttonValue;
+            this.firstNumberDot = true;
+        } else if (!this.secondNumberDot && this.operatorExist) {
+            displayValue = currentValue + buttonValue;
+            this.secondNumberDot = true;
+        }
 
         this.output.setText(displayValue);
     }
@@ -96,10 +93,8 @@ public class Controller {
     @FXML
     private void btnPlusMinusClick(ActionEvent event) {
 
-        if (!this.newIteration) {
-            this.allClear("0");
+        if (this.resetValue())
             return;
-        }
 
         String currentValue = this.output.getText();
         String displayValue;
@@ -115,10 +110,8 @@ public class Controller {
     @FXML
     private void btnEqualClick(ActionEvent event) {
 
-        if (!this.newIteration) {
-            this.allClear("0");
+        if (this.resetValue())
             return;
-        }
 
         try {
 
@@ -143,9 +136,26 @@ public class Controller {
 
         this.output.setText(txt);
 
+        this.initField();
+    }
+
+    private void initField() {
+
         this.operator       = "";
         this.newIteration   = true;
         this.operatorExist  = false;
         this.secondArgument = false;
+        this.firstNumberDot = false;
+        this.secondNumberDot = false;
+    }
+
+    private boolean resetValue() {
+
+        if (!this.newIteration) {
+            this.allClear("0");
+            return true;
+        }
+
+        return false;
     }
 }
