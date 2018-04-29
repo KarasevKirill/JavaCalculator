@@ -48,7 +48,7 @@ public class Controller {
             this.allClear();
             return;
         }
-        
+
         if (this.operatorExist) {
             this.btnEqualClick();
             return;

@@ -12,13 +12,12 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
-        primaryStage.getIcons().add(new Image("file:src/sample/img/icon.png"));
+        primaryStage.getIcons().add(new Image("/sample/img/icon.png"));
         primaryStage.setTitle("Калькулятор");
         primaryStage.setResizable(false);
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
     }
-
 
     public static void main(String[] args) {
         launch(args);
