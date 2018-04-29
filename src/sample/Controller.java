@@ -7,17 +7,15 @@ import javafx.event.ActionEvent;
 
 public class Controller {
 
-    private String operator;
-    private boolean newIteration;
     private boolean operatorExist;
-    private boolean secondArgument;
-    private boolean firstNumberDot;
-    private boolean secondNumberDot;
+    private boolean dotExist;
+    private boolean resultExist;
 
     private Model model;
-
     @FXML
     private Label output;
+    @FXML
+    private Label additionalOutput;
 
     public Controller() {
 
@@ -29,15 +27,13 @@ public class Controller {
     @FXML
     private void btnNumberClick(ActionEvent event) {
 
-        if (this.resetValue())
-            return;
+        if (this.resultExist)
+            this.allClear();
 
         String buttonValue = this.getValue(event);
         String currentValue = this.output.getText();
 
-        if ((buttonValue.equals("0") || buttonValue.equals("00")) && currentValue.equals("0"))
-            return;
-        if (this.secondArgument && buttonValue.equals("00"))
+        if (buttonValue.equals("00") && currentValue.equals("0"))
             return;
 
         String displayValue = currentValue.equals("0") ? buttonValue : currentValue + buttonValue;
@@ -48,53 +44,58 @@ public class Controller {
     @FXML
     private void btnOperatorClick(ActionEvent event) {
 
-        if (this.resetValue())
+        if (this.resultExist) {
+            this.allClear();
             return;
-
-        if (this.operatorExist)
+        }
+        
+        if (this.operatorExist) {
+            this.btnEqualClick();
             return;
+        }
 
         String buttonValue  = this.getValue(event);
         String currentValue = this.output.getText();
         String displayValue = currentValue + " " + buttonValue + " ";
 
+        this.additionalOutput.setText(displayValue);
+
+        this.output.setText("0");
+
+        this.dotExist       = false;
         this.operatorExist  = true;
-        this.secondArgument = true;
-        this.output.setText(displayValue);
     }
 
     @FXML
     private void btnDotClick(ActionEvent event) {
 
-        if (this.resetValue())
+        if (this.dotExist)
             return;
+
+        if (this.resultExist)
+            this.allClear();
 
         String buttonValue = this.getValue(event);
         String currentValue = this.output.getText();
-        String displayValue = currentValue;
 
-        if (!this.firstNumberDot && currentValue.indexOf(buttonValue) == -1) {
-            displayValue = currentValue + buttonValue;
-            this.firstNumberDot = true;
-        } else if (!this.secondNumberDot && this.operatorExist) {
-            displayValue = currentValue + buttonValue;
-            this.secondNumberDot = true;
-        }
+        String displayValue = currentValue + buttonValue;
 
         this.output.setText(displayValue);
+
+        this.dotExist = true;
     }
 
     @FXML
-    private void btnClearClick(ActionEvent event) {
+    private void btnClearClick() {
 
-        allClear("0");
+        allClear();
     }
 
     @FXML
-    private void btnPlusMinusClick(ActionEvent event) {
+    private void btnPlusMinusClick() {
 
-        if (this.resetValue())
-            return;
+        if (this.resultExist)
+            this.allClear();
 
         String currentValue = this.output.getText();
         String displayValue;
@@ -108,23 +109,24 @@ public class Controller {
     }
 
     @FXML
-    private void btnEqualClick(ActionEvent event) {
+    private void btnEqualClick() {
 
-        if (this.resetValue())
-            return;
+        if (this.resultExist)
+            this.allClear();
 
         try {
 
-            this.model.calculation(this.output.getText());
-            this.output.setText(this.model.getResult());
+            String result = this.additionalOutput.getText() + this.output.getText();
 
+            this.model.calculation(result);
+            this.additionalOutput.setText(result);
+            this.output.setText(this.model.getResult());
         } catch (ArithmeticException e) {
 
             this.output.setText(e.getMessage());
-
         }
 
-        this.newIteration = false;
+        this.resultExist = true;
     }
 
     private String getValue(ActionEvent event) {
@@ -132,30 +134,18 @@ public class Controller {
         return ((Button) event.getSource()).getText();
     }
 
-    private void allClear(String txt) {
+    private void allClear() {
 
-        this.output.setText(txt);
+        this.output.setText("0");
+        this.additionalOutput.setText("");
 
         this.initField();
     }
 
     private void initField() {
 
-        this.operator       = "";
-        this.newIteration   = true;
         this.operatorExist  = false;
-        this.secondArgument = false;
-        this.firstNumberDot = false;
-        this.secondNumberDot = false;
-    }
-
-    private boolean resetValue() {
-
-        if (!this.newIteration) {
-            this.allClear("0");
-            return true;
-        }
-
-        return false;
+        this.dotExist       = false;
+        this.resultExist    = false;
     }
 }
