@@ -119,7 +119,7 @@ public class Controller {
             String result = this.additionalOutput.getText() + this.output.getText();
 
             this.model.calculation(result);
-            this.additionalOutput.setText(result);
+            this.additionalOutput.setText(result + " = ");
             this.output.setText(this.model.getResult());
         } catch (ArithmeticException e) {
 
